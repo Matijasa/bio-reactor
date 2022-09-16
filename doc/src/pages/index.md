@@ -7,9 +7,6 @@ layout: ../layouts/BlogPost.astro
 
 # Markdown Here
 
-
-aaaa matija je jadanaaaaa
-
 ![Markdown Here logo](https://raw.github.com/adam-p/markdown-here/master/src/common/images/icon48.png)
 
 [**Visit the website.**](http://markdown-here.com)<br>

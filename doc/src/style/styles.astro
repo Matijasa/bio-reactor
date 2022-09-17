@@ -1,0 +1,147 @@
+---
+const fontGray = "#4e4e4e";
+const fontPrimary = "#0ccb93";
+---
+
+<style define:vars={{ fontGray, fontPrimary }} is:global>
+  body {
+    font-family: "Rubik", sans-serif;
+  }
+
+  /* LINKS */
+  a {
+    color: #0ccb93;
+    text-decoration: underline;
+  }
+
+  /*  HEADERS */
+  h1 {
+    font-size: 6rem;
+    font-weight: 700;
+    padding: 1rem 0;
+    /* color: #4e4e4e; */
+    color: #0ccb93;
+  }
+
+  h2 {
+    font-size: 4rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    /* color: #0ccb93; */
+    color: #4e4e4e;
+    text-decoration: underline;
+    text-decoration-color: #0ccb93;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 0.1rem;
+  }
+
+  h3 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    padding: 0.2rem 0;
+    /* color: #0ccb93; */
+    color: #4e4e4e;
+    opacity: 0.9;
+  }
+
+  h4 {
+    font-size: 2rem;
+    font-weight: 400;
+    padding: 0.2rem 0;
+    /* color: #0ccb93; */
+    color: #4e4e4e;
+  }
+
+  h5 {
+    font-size: 2rem;
+    font-weight: 400;
+    padding: 0.2rem 0;
+    /* color: #0ccb93; */
+    color: #4e4e4e;
+  }
+
+  h6 {
+    font-size: 2rem;
+    font-weight: 400;
+    padding: 0.2rem 0;
+    /* color: #0ccb93; */
+    color: #4e4e4e;
+  }
+
+  /* QUOTE */
+  blockquote {
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding: 1rem 1rem;
+    margin: 1rem 0;
+    border-left: 0.3rem solid #0ccb93;
+
+    background-color: #0000000a;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    /* color: #0ccb93; */
+    /* color: #4e4e4e; */
+  }
+
+  /* CODE BLOCK */
+  pre {
+    background-color: #0000000a !important;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  /* MATH */
+  .math-display {
+    background-color: #0000000a !important;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  /* TABLE */
+  table {
+    margin: 1rem 0;
+  }
+
+  td {
+    padding: 0.5rem;
+  }
+
+  tr {
+    border-bottom: 1px solid #0000000a;
+  }
+
+  tr:nth-child(even) {
+    background-color: #0000000a;
+  }
+
+  th {
+    border-bottom: 2px solid #0000000a;
+  }
+
+  /* lists */
+  ul {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+  li {
+    padding: 0.1rem 0;
+  }
+  li::before {
+    content: "•";
+    color: #4e4e4e;
+    font-weight: bold;
+    display: inline-block;
+    width: 1rem;
+    margin-left: -1rem;
+  }
+
+  /* images */
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+</style>

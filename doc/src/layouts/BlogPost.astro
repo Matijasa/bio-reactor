@@ -1,7 +1,5 @@
 ---
-// import BaseHead from "../components/BaseHead.astro";
-// import Header from "../components/Header.astro";
-// import Footer from "../components/Footer.astro";
+import Styles from "../style/styles.astro";
 
 export interface Props {
   content: {
@@ -20,50 +18,23 @@ const {
 ---
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" type="text/css" href="global.css" />
-  </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title}</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;900&display=swap"
+    rel="stylesheet"
+  />
+
   <body>
-    <main class="wrap">
-      <!-- <header>
-        <a href="#" class="website-title"> Astro Markdown</a>
-        <nav>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-          <a href="#">Archive</a>
-        </nav>
-      </header> -->
-      <article>
+    <main class="wrap flex justify-center w-100">
+      <article class="max-w-5xl mt-8">
         <slot />
       </article>
-      <!-- <footer>
-        <div class="inner">
-          <p>
-            This is the footer.<br />
-            Astro Markdown
-            <a href="https://astro.build">Astro.js</a> theme crafted by
-            <a href="https://github.com/adwinmbd">Adwinmbd</a>.
-          </p>
-        </div>
-      </footer> -->
     </main>
-    <style is:global>
-      h1 {
-        font-size: 4.5rem;
-        font-weight: 500;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+    <Styles />
   </body>
 </html>

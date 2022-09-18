@@ -16,15 +16,25 @@ const fontPrimary = "#0ccb93";
 
   /*  HEADERS */
   h1 {
-    font-size: 6rem;
+    font-size: 5rem;
     font-weight: 700;
     padding: 1rem 0;
     /* color: #4e4e4e; */
     color: #0ccb93;
+    line-height: 4rem;
+    text-align: center;
+  }
+
+  /* media query for mobile */
+  @media (max-width: 700px) {
+    h1 {
+      font-size: 3rem;
+      line-height: 3rem;
+    }
   }
 
   h2 {
-    font-size: 4rem;
+    font-size: 2.5rem;
     font-weight: 500;
     padding: 0.5rem 0;
     /* color: #0ccb93; */
@@ -33,6 +43,7 @@ const fontPrimary = "#0ccb93";
     text-decoration-color: #0ccb93;
     text-decoration-style: wavy;
     text-decoration-thickness: 0.1rem;
+    line-height: 4rem;
   }
 
   h3 {
@@ -90,6 +101,7 @@ const fontPrimary = "#0ccb93";
     border-radius: 5px;
     padding: 1rem;
     margin: 1.5rem 0;
+    overflow: auto;
   }
 
   /* MATH */
@@ -125,17 +137,16 @@ const fontPrimary = "#0ccb93";
   ul {
     padding: 0.5rem 0;
     padding-left: 1.5rem;
+    list-style-type: disc;
   }
   li {
     padding: 0.1rem 0;
   }
-  li::before {
-    content: "•";
-    color: #4e4e4e;
-    font-weight: bold;
-    display: inline-block;
-    width: 1rem;
-    margin-left: -1rem;
+
+  ol {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    list-style-type: decimal;
   }
 
   /* images */
@@ -143,5 +154,14 @@ const fontPrimary = "#0ccb93";
     max-width: 100%;
     height: auto;
     margin: 0 auto;
+  }
+
+  /* divider */
+
+  hr {
+    border: 0;
+    height: 2px;
+    background: #0000000a;
+    margin: 1rem 0;
   }
 </style>

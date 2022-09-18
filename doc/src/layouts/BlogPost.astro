@@ -1,5 +1,6 @@
 ---
 import Styles from "../style/styles.astro";
+import Header from "../layouts/Header.astro";
 
 export interface Props {
   content: {
@@ -30,6 +31,7 @@ const {
   />
 
   <body>
+    <Header />
     <main class="wrap">
       <article class="mx-auto p-6 max-w-5xl w-100 mt-8 flex flex-col">
         <slot />

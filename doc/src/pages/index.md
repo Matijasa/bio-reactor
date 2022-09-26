@@ -1,400 +1,91 @@
 ---
-title: Example Post
+title: Bioreactor project
 date: 2020-11-05 11:20:38
 draft: false
 layout: ../layouts/BlogPost.astro
 ---
-# Markdown render overview
 
-## Headers
+# Bioreactor
 
-```no-highlight
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
+## Motivation and challanges
 
-Alternatively, for H1 and H2, an underline-ish style:
+Author:  **Matija Šavli**  
 
-Alt-H1
-======
+Pač tle bos sawli napisu za ki se b nucalo to govno in pa zaki je doro to nardit sam. Napiš malo kuk so drage reči čene  
+lol
 
-Alt-H2
-------
-```
+## Designing parts
 
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
+We had a general idea in mind of what the finished product should look like, but we made no hard plans. We are quite self aware that most of things we plan wont work out or way better options will become obvious.
+We were, however sure that we needed the following parts:
 
-Alternatively, for H1 and H2, an underline-ish style:
+- [Jar lid](#jar-lid)
+- [Mixer](#mixer)
+  - and many pieces for it to work
+- Motor holder
+- Temperature probe mount
+- Bubbler
+- Electronics housing
 
-Alt-H1
-======
+Next chapters describe the design of the parts, iterations and problems along the way.
 
-Alt-H2
-------
+### Jar lid
 
+We've decided that the base container for our reactor will be a 5 liter glass jar that we got for around `4€`. It was big enough, cheap and good quality. Overall a great buy.
+The most logical way to mount all the sensors and actuators was to make a air tight lid that covers the jar, serves as a cover to keep the reactor sterile and allow us to mount arbitrary stuff on it.
 
-## Emphasis
+The hard part was designing the thread and an accurate diameter of the lid to be able to close it tightly. We made a series of test prints with different radii to find the one that fits the tightest.
 
-```no-highlight
-Emphasis, aka italics, with *asterisks* or _underscores_.
+![lid test prints](../../public/img/lid_prints.png)
 
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
+The test print that we were comfortable with was printed and is shown on the bottom right.  
 
-Combined emphasis with **asterisks and _underscores_**.
+Finding the radius that fits was not that difficult, but finding the correct way to make a thread was a bit challenging. It was difficult to measure the angle of teeth that grab the jar so trial and error was again the only viable option.  
 
-Strikethrough uses two tildes. ~~Scratch this.~~
-```
+![lid design](../../public/img/lid_autocad.png)
 
-```js
-console.log("lol")
-```
+The final option printed just great and allowed for a tight screw on.
 
-Emphasis, aka italics, with *asterisks* or _underscores_.
+### Mixer
 
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
+The ability to mix the contents of the reactor is a crucial part to make sure that aeration is good and to prevent any sediment. Ideally, one would want to have micro-organisms distributed evenly inside the medium.  
 
-Combined emphasis with **asterisks and _underscores_**.
+The design of the mixer blades was not trivial since it has to follow know guidelines for designing a bioreactor.  
+We were lucky since we, as students, had access to the PDF with said guidelines available as a part of the curriculum by professor [Romana Marinšek Logar](https://www.bf.uni-lj.si/sl/o-fakulteti/zaposleni/458/marinsek-logar-romana).
 
-Strikethrough uses two tildes. ~~Scratch this.~~
+The reactor has a dimeter of `d = 180mm` and height of roughly `h = 220mm`.
+The diameter `d_blade` and height `h_blade` of mixer blades can be calculated as follows:  
 
-
-
-
-## Lists
-
-```no-highlight
-1. First ordered list item
-2. Another item
-  * Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-  1. Ordered sub-list
-4. And another item.  
-   
-   Some text that should be aligned with the above item.
-
-* Unordered list can use asterisks
-- Or minuses
-+ Or pluses
-```
-
-1. First ordered list item
-2. Another item
-  * Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-  1. Ordered sub-list
-4. And another item.  
-   
-   Some text that should be aligned with the above item.
-
-* Unordered list can use asterisks
-- Or minuses
-+ Or pluses
-
-
-
-## Links
-
-There are two ways to create links.
-
-```no-highlight
-[I'm an inline-style link](https://www.google.com)
-
-[I'm a reference-style link][Arbitrary case-insensitive reference text]
-
-[You can use numbers for reference-style link definitions][1]
-
-Or leave it empty and use the [link text itself]
-
-URLs and URLs in angle brackets will automatically get turned into links. 
-http://www.example.com or <http://www.example.com> and sometimes 
-example.com (but not on Github, for example).
-
-Some text to show that the reference links can follow later.
-
-[arbitrary case-insensitive reference text]: https://www.mozilla.org
-[1]: http://slashdot.org
-[link text itself]: http://www.reddit.com
-```
-
-[I'm an inline-style link](https://www.google.com)
-
-[I'm a reference-style link][Arbitrary case-insensitive reference text]
-
-[You can use numbers for reference-style link definitions][1]
-
-Or leave it empty and use the [link text itself]
-
-URLs and URLs in angle brackets will automatically get turned into links. 
-http://www.example.com or <http://www.example.com> and sometimes 
-example.com (but not on Github, for example).
-
-Some text to show that the reference links can follow later.
-
-[arbitrary case-insensitive reference text]: https://www.mozilla.org
-[1]: http://slashdot.org
-[link text itself]: http://www.reddit.com
-
-
-
-## Images
-
-```no-highlight
-Here's our logo (hover to see the title text):
-
-Inline-style: 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-
-Reference-style: 
-![alt text][logo]
-
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
-```
-
-Here's our logo (hover to see the title text):
-
-Inline-style: 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-
-Reference-style: 
-![alt text][logo]
-
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
-
-
-
-## Code and Syntax Highlighting
-
-Code blocks are part of the Markdown spec, but syntax highlighting isn't. However, many renderers -- like Github's and *Markdown Here* -- support syntax highlighting. *Markdown Here* supports highlighting for dozens of languages (and not-really-languages, like diffs and HTTP headers); to see the complete list, and how to write the language names, see the [highlight.js demo page](http://softwaremaniacs.org/media/soft/highlight/test.html).
-
-```no-highlight
-Inline `code` has `back-ticks around` it.
-```
-
-Inline `code` has `back-ticks around` it.
-
-Blocks of code are either fenced by lines with three back-ticks <code>```</code>, or are indented with four spaces. I recommend only using the fenced code blocks -- they're easier and only they support syntax highlighting.
-
-<pre lang="no-highlight"><code>```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
- 
-```python
-s = "Python syntax highlighting"
-print s
-```
- 
-```
-No language indicated, so no syntax highlighting. 
-But let's throw in a &lt;b&gt;tag&lt;/b&gt;.
-```
-</code></pre>
-
-
-
-```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
-
-```python
-s = "Python syntax highlighting"
-print s
-```
-
-```
-No language indicated, so no syntax highlighting in Markdown Here (varies on Github). 
-But let's throw in a <b>tag</b>.
-```
-
-Again, to see what languages are available for highlighting, and how to write those language names, see the [highlight.js demo page](http://softwaremaniacs.org/media/soft/highlight/test.html).
-
-
-
-## Tables
-
-Tables aren't part of the core Markdown spec, but they are part of GFM and *Markdown Here* supports them. They are an easy way of adding tables to your email -- a task that would otherwise require copy-pasting from another application.
-
-```no-highlight
-Colons can be used to align columns.
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-The outer pipes (|) are optional, and you don't need to make the raw Markdown line up prettily. You can also use inline Markdown.
-
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
-```
-
-Colons can be used to align columns.
-
-| Tables        | Are           | Cool |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-The outer pipes (|) are optional, and you don't need to make the raw Markdown line up prettily. You can also use inline Markdown.
-
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
-
-
-
-## Blockquotes
-
-```no-highlight
-> Blockquotes are very handy in email to emulate reply text.
-> This line is part of the same quote.
-
-Quote break.
-
-> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
-```
-
-> Blockquotes are very handy in email to emulate reply text.
-> This line is part of the same quote.
-
-Quote break.
-
-> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
-
-
-
-## Inline HTML
-
-You can also use raw HTML in your Markdown, and it'll mostly work pretty well. 
-
-```no-highlight
-<dl>
-  <dt>Definition list</dt>
-  <dd>Is something people use sometimes.</dd>
-
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
-```
-
-<dl>
-  <dt>Definition list</dt>
-  <dd>Is something people use sometimes.</dd>
-
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
-
-
-
-## Horizontal Rule
-
-```
-Three or more...
-
----
-
-Hyphens
-
-***
-
-Asterisks
-
-___
-
-Underscores
-```
-
-Three or more...
-
----
-
-Hyphens
-
-***
-
-Asterisks
-
-___
-
-Underscores
-
-
-
-## Line Breaks
-
-My basic recommendation for learning how line breaks work is to experiment and discover -- hit &lt;Enter&gt; once (i.e., insert one newline), then hit it twice (i.e., insert two newlines), see what happens. You'll soon learn to get what you want. "Markdown Toggle" is your friend. 
-
-Here are some things to try out:
-
-```
-Here's a line for us to start with.
-
-This line is separated from the one above by two newlines, so it will be a *separate paragraph*.
-
-This line is also a separate paragraph, but...
-This line is only separated by a single newline, so it's a separate line in the *same paragraph*.
-```
-
-Here's a line for us to start with.
-
-This line is separated from the one above by two newlines, so it will be a *separate paragraph*.
-
-This line is also begins a separate paragraph, but...  
-This line is only separated by a single newline, so it's a separate line in the *same paragraph*.
-
-(Technical note: *Markdown Here* uses GFM line breaks, so there's no need to use MD's two-space line breaks.)
-
-
-
-## YouTube Videos
-
-They can't be added directly but you can add an image with a link to the video like this:
-
-```no-highlight
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
-" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-```
-
-Or, in pure Markdown, but losing the image sizing and border:
-
-```no-highlight
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
-```
-
-
-
-## TeX Mathematical Formulae
-
-A full description of TeX math symbols is beyond the scope of this cheatsheet. Here's a [good reference](https://en.wikibooks.org/wiki/LaTeX/Mathematics), and you can try stuff out on [CodeCogs](https://www.codecogs.com/latex/eqneditor.php). You can also play with formulae in the Markdown Here options page.
-
-Here are some examples to try out:
-
-```
-$-b \pm \sqrt{b^2 - 4ac} \over 2a$
-$x = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + a_4}}}$
-$\forall x \in X, \quad \exists y \leq \epsilon$
-```
-
-**Display math equation:**  
 $$
-a^2 + b^2 = c^2
+d_{blade} = \frac{d}{3} = \frac{180}{3} = 60
+$$
+$$
+h_{blade} = \frac{d_{blade}}{5} = \frac{60}{5} = 12
 $$
 
-**Inline**  
-This is some advanced formula $2+2=4$
+With the sizes calculated, only thing left to choose was the shape of the mixer.  
+
+Firstly we had to choose between `axial` (left) and `radial` (right) mixer heads:  
+
+![axial and radial mixer heads](../../public/img/mixer_heads.png)
+
+ Different positioning and angles of the blades have their own pros and cons.  
+
+| Mixer head | pros | cons |
+| :---: | --- | --- |
+| Axial | More efficient, good for sensitive microorganisms, better vertical circulation | lower sheer forces |
+| Radial | High sheer forces | less efficient, worst vertical circulation |
+
+> **sheer forces** are great for generating turbulence that break apart air bubbles into smaller ones which allows for better aeration of the medium (more surface area allows for better diffusion of gases).
+> Down side is that sensitive organisms (fungi cells and some animal cells) can be easily damaged by those forces.  
+
+We mostly want to grow yeast which is an aerobic microorganism and have therefore decided to go with the **radial head**. The efficiency loss and worst
+vertical circulation are negligible for the reactor of this size.  
+
+The designed part has an added mounting piece, so it can fit a screw to tighten it to the lead.  
+
+![mixer head design progression](../../public/img/mixer_designs.png)
+
+The final part was printed from the last (right most) design:  
+
+![printed mixer head](../../public/img/mixer_print.jpg)

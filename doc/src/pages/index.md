@@ -10,13 +10,11 @@ layout: ../layouts/BlogPost.astro
 ## Motivation and challanges
 
 Author:  **Matija Šavli**  
-
-Pač tle bos sawli napisu za ki se b nucalo to govno in pa zaki je doro to nardit sam. Napiš malo kuk so drage reči čene  
-lol
+Me and my friend [Lan Vukusic](https://github.com/LanVukusic) started brewing beer. One time we ran out of yeast so we had to use the sediment from a bottle of an older batch of beer. I cultivated the yeast in a small jar so that the inoculum containted enough yeast to pitch the wort. I wanted to optimize the process so i came to the idea that i want to make my own bioreactor.  
 
 ## Designing parts
 
-We had a general idea in mind of what the finished product should look like, but we made no hard plans. We are quite self aware that most of things we plan wont work out or way better options will become obvious.
+We had a general idea in mind of what the finished product should look like, but we made no hard plans. We are aware that most of the things we plan wont work out or way better options will become obvious.
 We were, however sure that we needed the following parts:
 
 - [Jar lid](#jar-lid)
@@ -25,6 +23,7 @@ We were, however sure that we needed the following parts:
 - Motor holder
 - Temperature probe mount
 - Bubbler
+- Sample retreving mechanism
 - Electronics housing
 
 Next chapters describe the design of the parts, iterations and problems along the way.
@@ -88,4 +87,8 @@ The designed part has an added mounting piece, so it can fit a screw to tighten 
 
 The final part was printed from the last (right most) design:  
 
-![printed mixer head](../../public/img/mixer_print.jpg)
+![printed mixer head](../../public/img/mixer_print.jpg)  
+
+### Motor
+### Transfer of power
+### Axel

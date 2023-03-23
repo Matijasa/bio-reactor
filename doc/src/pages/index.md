@@ -49,8 +49,8 @@ The final option printed just great and allowed for a tight screw on.
 
 The ability to mix the contents of the reactor is a crucial part to make sure that aeration is good and to prevent any sediment. Ideally, one would want to have micro-organisms distributed evenly inside the medium.  
 
-The design of the mixer blades was not trivial since it has to follow know guidelines for designing a bioreactor.  
-We were lucky since we, as students, had access to the PDF with said guidelines available as a part of the curriculum by professor [Romana Marinšek Logar](https://www.bf.uni-lj.si/sl/o-fakulteti/zaposleni/458/marinsek-logar-romana).
+The design of the mixer blades was not trivial since it has to follow know guidelines for designing a bioreactor.
+
 
 The reactor has a dimeter of `d = 180mm` and height of roughly `h = 220mm`.
 The diameter `d_blade` and height `h_blade` of mixer blades can be calculated as follows:  
@@ -76,10 +76,10 @@ Firstly we had to choose between `axial` (left) and `radial` (right) mixer heads
 | Radial | High sheer forces | less efficient, worst vertical circulation |
 
 > **sheer forces** are great for generating turbulence that break apart air bubbles into smaller ones which allows for better aeration of the medium (more surface area allows for better diffusion of gases).
-> Down side is that sensitive organisms (fungi cells and some animal cells) can be easily damaged by those forces.  
+> Down side is that sensitive organisms (fungi cells-filamentous and some animal cells) can be easily damaged by those forces.  
 
-We mostly want to grow yeast which is an aerobic microorganism and have therefore decided to go with the **radial head**. The efficiency loss and worst
-vertical circulation are negligible for the reactor of this size.  
+We mostly want to grow yeast which grows best in the pressence of oxygen and have therefore decided to go with the **radial head**. The efficiency loss and worse
+vertical circulation are negligible for the reactor of this size(we need a source lel).  
 
 The designed part has an added mounting piece, so it can fit a screw to tighten it to the lead.  
 
@@ -90,5 +90,10 @@ The final part was printed from the last (right most) design:
 ![printed mixer head](../../public/img/mixer_print.jpg)  
 
 ### Motor
+For the motor we used a stepper motor that we found in an absolete ink printer. We had to buy a driver board so we could actually drive the motor.  
 ### Transfer of power
+We used a belt system.  
 ### Axel
+For the axel shaft we used a metal rod diameter of 1 mm.  
+### Air supply
+We decided to buy a aquarium air pump to fulfil the need for oxygen.

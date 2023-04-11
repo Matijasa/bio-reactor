@@ -94,9 +94,8 @@ We used a belt system.
 ### Mixer
 For the axel shaft we used a 1mm * 1mm metal rod to which we attached the rotor heads. The rod is mounted on the lid. It passes through a bearing which allows for free rotational movement.
 ### Air supply
-We decided to buy a aquarium air pump to fulfil the need for oxygen.  
+We decided to buy a aquarium air pump to fulfil the need for oxygen. We also acquired a unused air filter from a biotehnological company. The air supply will be controled by an esp32 wroom board. We will also have a 
 ### Main housing for electronics
 Under construction
 ### Electronics and sensors
 Under construction
-### 

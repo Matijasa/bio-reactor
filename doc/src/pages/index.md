@@ -36,13 +36,13 @@ To mount all the sensors and actuators, we decided to create an airtight lid tha
 
 The most challenging aspect of designing the lid was creating the thread and ensuring that the diameter was accurate enough to close the lid tightly. We performed a series of test prints with different radii to find the tightest fit.
 
-![lid test prints](/public/img/lid_prints.png)
+![lid test prints](/img/lid_prints.png)
 
 After conducting a series of test prints with various radii, we were able to find the ideal fit for the jar lid. The successful test print is shown on the bottom right in the image below.
 
 While determining the correct radius was not overly challenging, creating the thread proved to be more difficult. We had trouble measuring the angle of the teeth that grip the jar, so we had to resort to trial and error to find the best method. 
 
-![lid design](/public/img/lid_autocad.png)
+![lid design](/img/lid_autocad.png)
 
 The final option printed just great and allowed for a tight screw on.
 
@@ -65,7 +65,7 @@ With the sizes calculated, only thing left to choose was the shape of the mixer.
 
 Firstly we had to choose between `axial` (left) and `radial` (right) mixer heads:  
 
-![axial and radial mixer heads](/public/img/mixer_heads.png)
+![axial and radial mixer heads](/img/mixer_heads.png)
 
  Different positioning and angles of the blades have their own pros and cons.  
 
@@ -81,11 +81,11 @@ We have opted for the radial head design as it is best suited for growing yeast 
 
 To ensure the radial head is secure, we have added a mounting piece to the design, allowing us to fit a screw to tighten it to the lead.
 
-![mixer head design progression](/public/img/mixer_designs.png)
+![mixer head design progression](/img/mixer_designs.png)
 
 The final part was printed from the last (right most) design:  
 
-![printed mixer head](/public/img/mixer_print.jpg)  
+![printed mixer head](/img/mixer_print.jpg)  
 
 ### Motor
 We repurposed a stepper motor from an old ink printer to drive the mixer. However, we needed a driver board to properly control the motor. After researching various options, we settled on a reliable and affordable board that would allow us to easily adjust the motor speed and direction.

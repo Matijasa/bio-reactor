@@ -1,4 +1,4 @@
-69164420429029
+70852649282285
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -90453,6 +90453,13 @@ MODULE_ESP32_DEVKIT_V1
 0
 30
 30
+local_lib
+MODULE_TMC2209_SILENTSTEPSTICK
+
+
+0
+18
+18
 local_lib
 Mosfet_IRF3205
 TO-220-3, Horizontal, RM 2.54mm, see https://www.vishay.com/docs/66542/to-220-1.pdf

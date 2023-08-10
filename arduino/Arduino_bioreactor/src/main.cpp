@@ -1,52 +1,63 @@
-#include "SPI.h"
-#include "Adafruit_GFX.h"
-#include "Adafruit_ILI9341.h"
-#include <QuickPID.h>
+// --------------------------------------
+// i2c_scanner
+//
+// Modified from https://playground.arduino.cc/Main/I2cScanner/
+// --------------------------------------
+#include <Arduino.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_I2CDevice.h>
 
-//SPI pins
-#define TFT_DC 2
-#define TFT_CS 15
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
-
-// Thermistor pin
-#define THERMISTOR_PIN A0
-
-// Heater pin
-#define HEATER_PIN 3
+// Set I2C bus to use: Wire, Wire1, etc.
+#define WIRE Wire
 
 void setup() {
-  // put your setup code here, to run once:
+  WIRE.begin();
 
-  // SPI pin readout
   Serial.begin(9600);
-  Serial.print("MOSI: ");
-  Serial.println(MOSI);
-  Serial.print("MISO: ");
-  Serial.println(MISO);
-  Serial.print("SCK: ");
-  Serial.println(SCK);
-  Serial.print("SS: ");
-  Serial.println(SS);  
- 
-
-// Basic graphics display test
-    tft.begin();
-  Serial.begin(9600);
-  Serial.println("1234567890");
-  tft.setCursor(20, 120);
-  tft.setTextColor(ILI9341_RED);
-  tft.setTextSize(3);
-  tft.println("Hello ESP32");
-
-  tft.setCursor(24, 160);
-  tft.setTextColor(ILI9341_GREEN);
-  tft.setTextSize(2);
-  tft.println("I can do SPI :-)");
-  tft.invertDisplay(true);
-
-
-
+  while (!Serial)
+     delay(10);
+  Serial.println("\nI2C Scanner");
 }
 
-void loop() 
- { delay(10); }
+
+void loop() {
+  byte error, address;
+  int nDevices;
+
+  Serial.println("Scanning...");
+
+  nDevices = 0;
+  for(address = 1; address < 127; address++ ) 
+  {
+    // The i2c_scanner uses the return value of
+    // the Write.endTransmisstion to see if
+    // a device did acknowledge to the address.
+    WIRE.beginTransmission(address);
+    error = WIRE.endTransmission();
+
+    if (error == 0)
+    {
+      Serial.print("I2C device found at address 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.print(address,HEX);
+      Serial.println("  !");
+
+      nDevices++;
+    }
+    else if (error==4) 
+    {
+      Serial.print("Unknown error at address 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.println(address,HEX);
+    }    
+  }
+  if (nDevices == 0)
+    Serial.println("No I2C devices found\n");
+  else
+    Serial.println("done\n");
+
+  delay(5000);           // wait 5 seconds for next scan
+}

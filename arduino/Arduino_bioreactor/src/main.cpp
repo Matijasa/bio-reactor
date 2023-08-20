@@ -1,63 +1,48 @@
-// --------------------------------------
-// i2c_scanner
-//
-// Modified from https://playground.arduino.cc/Main/I2cScanner/
-// --------------------------------------
 #include <Arduino.h>
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_I2CDevice.h>
+#include <TMCStepper.h>
 
-// Set I2C bus to use: Wire, Wire1, etc.
-#define WIRE Wire
+#define EN_PIN 38  // Enable
+#define CS_PIN 42  // Chip select
+#define DIR_PIN 2  // Direction
+#define STEP_PIN 4 // Step
 
-void setup() {
-  WIRE.begin();
+#define SERIAL_PORT Serial1 // TMC2208/TMC2224 HardwareSerial port
 
-  Serial.begin(9600);
-  while (!Serial)
-     delay(10);
-  Serial.println("\nI2C Scanner");
+#define R_SENSE 0.11f // Match to your driver
+
+TMC2208Stepper driver(&SERIAL_PORT, R_SENSE); // Hardware Serial
+
+const int steps_per_revolution = 200;
+const int desired_rpm = 300;
+
+void setup()
+{
+  pinMode(EN_PIN, OUTPUT);
+  pinMode(STEP_PIN, OUTPUT);
+  pinMode(DIR_PIN, OUTPUT);
+  digitalWrite(EN_PIN, LOW); // Enable driver in hardware
+
+  SERIAL_PORT.begin(115200);
+
+  driver.begin();
+  driver.toff(5);
+  driver.rms_current(600);
+  driver.microsteps(16);
+  driver.en_spreadCycle(true);
+  driver.pwm_autoscale(true);
 }
 
+void loop()
+{
+  // Calculate delay based on desired RPM
+  unsigned long delay_microseconds = 60000000UL / (steps_per_revolution * desired_rpm);
 
-void loop() {
-  byte error, address;
-  int nDevices;
-
-  Serial.println("Scanning...");
-
-  nDevices = 0;
-  for(address = 1; address < 127; address++ ) 
+  // Run the motor continuously
+  while (true)
   {
-    // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
-    // a device did acknowledge to the address.
-    WIRE.beginTransmission(address);
-    error = WIRE.endTransmission();
-
-    if (error == 0)
-    {
-      Serial.print("I2C device found at address 0x");
-      if (address<16) 
-        Serial.print("0");
-      Serial.print(address,HEX);
-      Serial.println("  !");
-
-      nDevices++;
-    }
-    else if (error==4) 
-    {
-      Serial.print("Unknown error at address 0x");
-      if (address<16) 
-        Serial.print("0");
-      Serial.println(address,HEX);
-    }    
+    digitalWrite(STEP_PIN, HIGH);
+    delayMicroseconds(delay_microseconds);
+    digitalWrite(STEP_PIN, LOW);
+    delayMicroseconds(delay_microseconds);
   }
-  if (nDevices == 0)
-    Serial.println("No I2C devices found\n");
-  else
-    Serial.println("done\n");
-
-  delay(5000);           // wait 5 seconds for next scan
 }

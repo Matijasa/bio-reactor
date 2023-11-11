@@ -1,48 +1,82 @@
 #include <Arduino.h>
-#include <TMCStepper.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Wire.h>
 
-#define EN_PIN 38  // Enable
-#define CS_PIN 42  // Chip select
-#define DIR_PIN 2  // Direction
-#define STEP_PIN 4 // Step
+#define ONE_WIRE_BUS 4
+#define GATE_PIN 2
+#define TEMP_WANTED 43.0
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
-#define SERIAL_PORT Serial1 // TMC2208/TMC2224 HardwareSerial port
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-#define R_SENSE 0.11f // Match to your driver
-
-TMC2208Stepper driver(&SERIAL_PORT, R_SENSE); // Hardware Serial
-
-const int steps_per_revolution = 200;
-const int desired_rpm = 300;
-
+int initial_time = 0;
+int initial_temp = 0;
+bool has_reached_temp = false;
 void setup()
 {
-  pinMode(EN_PIN, OUTPUT);
-  pinMode(STEP_PIN, OUTPUT);
-  pinMode(DIR_PIN, OUTPUT);
-  digitalWrite(EN_PIN, LOW); // Enable driver in hardware
+  Serial.begin(9600);
+  sensors.begin();
+  delay(500);
 
-  SERIAL_PORT.begin(115200);
+  // GATE SETUP
+  pinMode(GATE_PIN, OUTPUT);
 
-  driver.begin();
-  driver.toff(5);
-  driver.rms_current(600);
-  driver.microsteps(16);
-  driver.en_spreadCycle(true);
-  driver.pwm_autoscale(true);
+  // reset time
+  initial_time = millis();
+  // reset temp
+  initial_temp = sensors.getTempCByIndex(0);
 }
 
 void loop()
 {
-  // Calculate delay based on desired RPM
-  unsigned long delay_microseconds = 60000000UL / (steps_per_revolution * desired_rpm);
+  sensors.requestTemperatures();
+  float temp = sensors.getTempCByIndex(0);
+  Serial.print(temp);
+  Serial.print(" C  |  ");
+  delay(500);
 
-  // Run the motor continuously
-  while (true)
+  if (temp - (-127.0) < 0.0001)
   {
-    digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(delay_microseconds);
-    digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(delay_microseconds);
+    Serial.println("No sensor found");
+    delay(1000);
+    return;
   }
+
+  if (temp < TEMP_WANTED)
+  {
+    // INVERTED PINS
+    digitalWrite(GATE_PIN, LOW);
+    Serial.print("Gate opened  |  ");
+  }
+  else
+  {
+    // INVERTED PINS
+    digitalWrite(GATE_PIN, HIGH);
+    Serial.print("Gate closed  |  ");
+
+    if (!has_reached_temp)
+    {
+      has_reached_temp = true;
+      Serial.println("");
+      Serial.print("Time to reach temp: ");
+      int time = millis() - initial_time;
+      Serial.print(time / 1000);
+      Serial.print(" s || ");
+      Serial.print("Temp delta: ");
+      Serial.print(temp - initial_temp);
+      Serial.println(" C");
+    }
+  }
+
+  // time from start
+  int time = millis() - initial_time;
+  Serial.print(time / 1000);
+  Serial.println(" s");
 }

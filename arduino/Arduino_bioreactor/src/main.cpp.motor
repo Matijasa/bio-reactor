@@ -1,0 +1,98 @@
+// MOTOR SPECS
+
+// Manufacturer Part Number: 17HS08-1004S
+// Motor Type: Bipolar Stepper
+// Step Angle: 1.8 deg
+// Holding Torque: 16Ncm(22 oz.in)
+// Rated Current/phase: 1.0A
+// Voltage: 3.7V
+// Phase Resistance: 3.7ohms
+// Inductance: 4.5mH ± 20%(1KHz)
+
+#include <Arduino.h>      // nedded for the arduino framework
+#include <TMCStepper.h>   // controll the stepper driver
+#include <AccelStepper.h> // controll the stepper motor timings
+#include <Stream.h>       // nedded for the serial communication
+#include <Adafruit_I2CDevice.h>
+
+// #define EN_PIN 15  // Enable
+// #define DIR_PIN 2  // Direction
+// #define STEP_PIN 4 // Step
+
+#define STALL_VALUE 250     // [0..255]
+#define DRIVER_ADDRESS 0b00 // TMC2209 Driver address according to MS1 and MS2
+#define SERIAL_PORT Serial2 // Select your Serial Port
+
+#define R_SENSE 0.2f // Match to your driver
+
+TMC2209Stepper TMCdriver(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS); // Create TMC driver
+
+int accel;
+long maxSpeed;
+int speedChangeDelay;
+bool dir = false;
+
+void setup()
+{
+
+  SERIAL_PORT.begin(9600); // initialize serial for TMC2209
+  Serial.begin(9600);      // initialize hardware serial for debuggin
+
+  TMCdriver.FACTORY_CONF();
+  TMCdriver.begin();          // UART: Init SW UART (if selected) with default 115200 baudrate
+  TMCdriver.toff(5);          // Enables driver in software
+  TMCdriver.rms_current(400); // Set motor RMS current
+  TMCdriver.microsteps(16);   // Set microsteps
+
+  TMCdriver.en_spreadCycle(false);
+  TMCdriver.pwm_autoscale(true); // Needed for stealthChop
+
+  // TMCdriver.begin();
+  // TMCdriver.toff(4);
+  // TMCdriver.blank_time(24);
+  // TMCdriver.rms_current(400); // mA
+  // TMCdriver.microsteps(32);
+  // TMCdriver.TCOOLTHRS(0xFFFFF); // 20bit max
+  // TMCdriver.semin(5);
+  // TMCdriver.semax(2);
+  // TMCdriver.sedn(0b01);
+  // TMCdriver.SGTHRS(STALL_VALUE);
+
+  TMCdriver.VACTUAL(5000); // Set motor speed
+  Serial.print("version: ");
+  Serial.println(TMCdriver.version());
+}
+
+void loop()
+{
+
+  // accel = 5000;           // Speed increase/decrease amount
+  // maxSpeed = 50000;       // Maximum speed to be reached
+  // speedChangeDelay = 100; // Delay between speed changes
+
+  // for (long i = 0; i <= maxSpeed; i = i + accel)
+  // {                       // Speed up to maxSpeed
+  // SERIAL_PORT.write(TMCdriver.VACTUAL() + "\n");
+  // delay(1000);
+  // }
+
+  // dir = !dir;           // REVERSE DIRECTION
+  // TMCdriver.shaft(dir); // SET DIRECTION
+
+  static uint32_t last_time = 0;
+  uint32_t ms = millis();
+  if ((ms - last_time) > 1000)
+  { // run every 0.1s
+    last_time = ms;
+
+    using namespace TMC2130_n;
+
+    DRV_STATUS_t drv_status{0};
+    drv_status.sr = TMCdriver.DRV_STATUS();
+
+    Serial.print("Status: ");
+    Serial.print(drv_status.sg_result, DEC);
+    Serial.print(" Stallguard: ");
+    Serial.println(TMCdriver.cs2rms(drv_status.cs_actual), DEC);
+  }
+}

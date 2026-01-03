@@ -1,52 +1,82 @@
-#include "SPI.h"
-#include "Adafruit_GFX.h"
-#include "Adafruit_ILI9341.h"
-#include <QuickPID.h>
+#include <Arduino.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Wire.h>
 
-//SPI pins
-#define TFT_DC 2
-#define TFT_CS 15
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+#define ONE_WIRE_BUS 4
+#define GATE_PIN 2
+#define TEMP_WANTED 43.0
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
-// Thermistor pin
-#define THERMISTOR_PIN A0
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-// Heater pin
-#define HEATER_PIN 3
-
-void setup() {
-  // put your setup code here, to run once:
-
-  // SPI pin readout
+int initial_time = 0;
+int initial_temp = 0;
+bool has_reached_temp = false;
+void setup()
+{
   Serial.begin(9600);
-  Serial.print("MOSI: ");
-  Serial.println(MOSI);
-  Serial.print("MISO: ");
-  Serial.println(MISO);
-  Serial.print("SCK: ");
-  Serial.println(SCK);
-  Serial.print("SS: ");
-  Serial.println(SS);  
- 
+  sensors.begin();
+  delay(500);
 
-// Basic graphics display test
-    tft.begin();
-  Serial.begin(9600);
-  Serial.println("1234567890");
-  tft.setCursor(20, 120);
-  tft.setTextColor(ILI9341_RED);
-  tft.setTextSize(3);
-  tft.println("Hello ESP32");
+  // GATE SETUP
+  pinMode(GATE_PIN, OUTPUT);
 
-  tft.setCursor(24, 160);
-  tft.setTextColor(ILI9341_GREEN);
-  tft.setTextSize(2);
-  tft.println("I can do SPI :-)");
-  tft.invertDisplay(true);
-
-
-
+  // reset time
+  initial_time = millis();
+  // reset temp
+  initial_temp = sensors.getTempCByIndex(0);
 }
 
-void loop() 
- { delay(10); }
+void loop()
+{
+  sensors.requestTemperatures();
+  float temp = sensors.getTempCByIndex(0);
+  Serial.print(temp);
+  Serial.print(" C  |  ");
+  delay(500);
+
+  if (temp - (-127.0) < 0.0001)
+  {
+    Serial.println("No sensor found");
+    delay(1000);
+    return;
+  }
+
+  if (temp < TEMP_WANTED)
+  {
+    // INVERTED PINS
+    digitalWrite(GATE_PIN, LOW);
+    Serial.print("Gate opened  |  ");
+  }
+  else
+  {
+    // INVERTED PINS
+    digitalWrite(GATE_PIN, HIGH);
+    Serial.print("Gate closed  |  ");
+
+    if (!has_reached_temp)
+    {
+      has_reached_temp = true;
+      Serial.println("");
+      Serial.print("Time to reach temp: ");
+      int time = millis() - initial_time;
+      Serial.print(time / 1000);
+      Serial.print(" s || ");
+      Serial.print("Temp delta: ");
+      Serial.print(temp - initial_temp);
+      Serial.println(" C");
+    }
+  }
+
+  // time from start
+  int time = millis() - initial_time;
+  Serial.print(time / 1000);
+  Serial.println(" s");
+}

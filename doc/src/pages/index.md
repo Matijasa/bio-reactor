@@ -9,8 +9,7 @@ layout: ../layouts/BlogPost.astro
 
 ## Motivation
 
-Author:  **Matija Šavli**, **Lan Vukušič**  
-My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
+Author:  **Matija Šavli**, **Lan Vukušič** My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
 
 We began researching and came across the idea of creating our own bioreactor to cultivate yeast under controlled conditions. By controlling environmental factors like temperature, pH, and oxygen levels, we could improve the quality and yield of our beer. It would also allow us to scale up production while maintaining consistent quality.
 
@@ -36,13 +35,13 @@ To mount all the sensors and actuators, we decided to create an airtight lid tha
 
 The most challenging aspect of designing the lid was creating the thread and ensuring that the diameter was accurate enough to close the lid tightly. We performed a series of test prints with different radii to find the tightest fit.
 
-![lid test prints](/public/img/lid_prints.webp)
+![lid test prints](/img/lid_prints.webp)
 
 After conducting a series of test prints with various radii, we were able to find the ideal fit for the jar lid. The successful test print is shown on the bottom right in the image below.
 
 While determining the correct radius was not overly challenging, creating the thread proved to be more difficult. We had trouble measuring the angle of the teeth that grip the jar, so we had to resort to trial and error to find the best method. 
 
-![lid design](/public/img/lid_autocad.webp)
+![lid design](/img/lid_autocad.webp)
 
 The final option printed just great and allowed for a tight screw on.
 
@@ -65,7 +64,7 @@ With the sizes calculated, only thing left to choose was the shape of the mixer.
 
 Firstly we had to choose between `axial` (left) and `radial` (right) mixer heads:  
 
-![axial and radial mixer heads](/public/img/mixer_heads.webp)
+![axial and radial mixer heads](/img/mixer_heads.webp)
 
  Different positioning and angles of the blades have their own pros and cons.  
 
@@ -81,21 +80,35 @@ We have opted for the radial head design as it is best suited for growing yeast 
 
 To ensure the radial head is secure, we have added a mounting piece to the design, allowing us to fit a screw to tighten it to the lead.
 
-![mixer head design progression](/public/img/mixer_designs.webp)
+![mixer head design progression](/img/mixer_designs.webp)
 
-The final part was printed from the last (right most) design:  
+The final assembly uses a square brass rod to transmit torque, with the 3D printed mixing heads secured at the bottom.
 
-![printed mixer head](/public/img/mixer_print.webp)  
+![printed mixer assembly](/img/rotating_rod.webp)  
 
-### Motor
-We repurposed a stepper motor from an old ink printer to drive the mixer. However, we needed a driver board to properly control the motor. After researching various options, we settled on a reliable and affordable board that would allow us to easily adjust the motor speed and direction.
-### Transfer of power
-We used a belt system.  
-### Mixer
-For the axel shaft we used a 1mm * 1mm metal rod to which we attached the rotor heads. The rod is mounted on the lid. It passes through a bearing which allows for free rotational movement.
+### Motor and Housing
+We repurposed a stepper motor from an old ink printer to drive the mixer. To securely attach this to our lid, we designed a custom motor holder in FreeCAD.
+
+Here is the complete assembly design. The motor attaches at the top, and the housing ensures it stays perfectly aligned with the central mixing shaft while minimizing vibration:
+
+![Motor Housing Assembly CAD](/img/whole_lid_setup.png)
+
+Instead of a complex belt system, we opted for a direct-drive configuration. We designed a custom 3D-printed coupler to connect the motor's shaft directly to the square brass mixing rod. This simplifies the assembly and reduces the number of moving parts.
+
 ### Air supply
-We decided to buy a aquarium air pump to fulfil the need for oxygen. We also acquired a unused air filter from a biotehnological company. The air supply will be controled by an esp32 wroom board. We will also have a 
-### Main housing for electronics
-Under construction
+For oxygenation, we selected a **Resun Air 2000** aquarium pump. It provides sufficient airflow to keep the medium oxygenated for yeast propagation.
+
+![Air pump](/img/air_pump.webp)
+
+To ensure sterility, the air intake is passed through a **Sartorius Midisart 2000** filter before entering the bioreactor. This prevents outside contaminants (wild yeast or bacteria) from spoiling the batch.
+
+![Sterile air filter](/img/filter.webp)
+
 ### Electronics and sensors
-Under construction
+The brain of the operation is an **ESP32-WROOM-32** microcontroller. This board was chosen for its built-in WiFi and Bluetooth capabilities, which will eventually allow us to monitor the fermentation process remotely.
+
+![ESP32 Wroom Board](/img/32wroom3.jpg)
+
+For temperature control, we are using a small immersion heating element. This allows us to maintain the precise temperature range required for specific yeast strains (typically between 18°C and 24°C).
+
+![Heating element](/img/heating_element.webp)

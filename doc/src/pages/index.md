@@ -5,8 +5,6 @@ draft: false
 layout: ../layouts/BlogPost.astro
 ---
 
-# Bioreactor
-
 ## Motivation
 
 Author:  **Matija Šavli**, **Lan Vukušič** My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
@@ -92,6 +90,11 @@ The final assembly uses a square brass rod to transmit torque, with the 3D print
 
 **The Upgrade:** We eventually upgraded to a standard **NEMA 17** stepper motor. It is the industry standard for 3D printers for a reason: it offers high torque, precise control, and standard mounting holes.
 
+<video controls autoplay loop muted playsinline width="100%">
+  <source src="/img/motor_test.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 To securely attach the NEMA 17 to our lid, we designed a custom motor holder in FreeCAD.
 
 Here is the complete assembly design. The motor attaches at the top, and the housing ensures it stays perfectly aligned with the central mixing shaft while minimizing vibration:
@@ -120,12 +123,22 @@ Right now, the pump is "always on" when plugged in. We haven't tested the automa
 ### Electronics and sensors
 
 The brain of the operation is an **ESP32-WROOM-32** microcontroller. This board was chosen for its built-in WiFi and Bluetooth capabilities, which will eventually allow us to monitor the fermentation process remotely.
+To keep things modular during development, we wired everything up on a breadboard first. This "Rat's Nest" includes the ESP32, a stepper driver, and the power management rails.
 
-![ESP32 Wroom Board](/img/32wroom3.jpg)
+![Electronics Prototype Breadboard](/img/electronics_breadboard.jpg)
 
 For temperature control, we are using a small immersion heating element. This allows us to maintain the precise temperature range required for specific yeast strains (typically between 18°C and 24°C).
 
 ![Heating element](/img/heating_element.webp)
+
+Before risking a full batch of yeast, we validated the heating logic in a high-tech simulation environment (a plastic cup of water).
+
+<video controls autoplay loop muted playsinline width="100%">
+  <source src="/img/heater_logic_test.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+![Heater Test Setup](/img/heater_test.jpg)
 
 ### The Power Plant
 
@@ -138,7 +151,8 @@ To run the heater, the stepper motor, and the ESP32, we needed a reliable 12V DC
 
 ## The Logic (Firmware)
 
-Hardware is nothing without code. We wrote a simple C++ program to run on the ESP32. It uses a **Bang-Bang control loop** (the simplest form of feedback control):
+Hardware is nothing without code. We developed the firmware using **PlatformIO** (VS Code) for its easy library management, though we plan to migrate to the native **Espressif IDF** later for more granular control.
+The current version (`v0.1`) uses a **Bang-Bang control loop** (the simplest form of feedback control):
 
 1. Read temperature.
 2. Is it too cold? Turn heater **ON**.

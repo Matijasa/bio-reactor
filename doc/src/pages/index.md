@@ -7,7 +7,11 @@ layout: ../layouts/BlogPost.astro
 
 ## Motivation
 
-Author:  **Matija Šavli**, **Lan Vukušič** My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
+## Motivation
+
+**Authors:** Matija Šavli, Lan Vukušič
+
+My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
 
 We began researching and came across the idea of creating our own bioreactor to cultivate yeast under controlled conditions. By controlling environmental factors like temperature, pH, and oxygen levels, we could improve the quality and yield of our beer. It would also allow us to scale up production while maintaining consistent quality.
 
@@ -86,12 +90,14 @@ The final assembly uses a square brass rod to transmit torque, with the 3D print
 
 ### Motor and Housing
 
-**The "Free" Mistake:** Initially, we repurposed a stepper motor from an old ink printer. It was free, but mounting it was a nightmare and it barely had enough torque to stir water, let alone a thick yeast starter.
+**The "Free" Mistake:** Initially, we repurposed a stepper motor from an old ink printer. It was free, but mounting it was a nightmare and it became too complex.
+
+![Old Printer Motor Setup](/img/old_motor_holder2.webp)
 
 **The Upgrade:** We eventually upgraded to a standard **NEMA 17** stepper motor. It is the industry standard for 3D printers for a reason: it offers high torque, precise control, and standard mounting holes.
 
 <video controls autoplay loop muted playsinline width="100%">
-  <source src="/img/motor_test.mp4" type="video/mp4">
+  <source src="/img/motor_test_silent.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -99,7 +105,7 @@ To securely attach the NEMA 17 to our lid, we designed a custom motor holder in 
 
 Here is the complete assembly design. The motor attaches at the top, and the housing ensures it stays perfectly aligned with the central mixing shaft while minimizing vibration:
 
-![Motor Housing Assembly CAD](/img/whole_lid_setup.png)
+![Motor Housing Assembly CAD](/img/new_motor_holder.png)
 
 Instead of a complex belt system, we opted for a direct-drive configuration. We designed a custom 3D-printed coupler to connect the motor's shaft directly to the square brass mixing rod. This simplifies the assembly and reduces the number of moving parts.
 
@@ -134,7 +140,7 @@ For temperature control, we are using a small immersion heating element. This al
 Before risking a full batch of yeast, we validated the heating logic in a high-tech simulation environment (a plastic cup of water).
 
 <video controls autoplay loop muted playsinline width="100%">
-  <source src="/img/heater_logic_test.mp4" type="video/mp4">
+  <source src="/img/heater_logic_test_silent.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -144,7 +150,7 @@ Before risking a full batch of yeast, we validated the heating logic in a high-t
 
 To run the heater, the stepper motor, and the ESP32, we needed a reliable 12V DC source. Instead of buying a cheap brick, we repurposed a server power supply (**HP HSTNS-PL23B**) scavenged from an old data center rack.
 
-![Server Power Supply](/img/power_supply.jpg)
+![Server Power Supply](/img/power_suppy.jpg)
 
 - **Output:** 12V @ 38.3A (460W Max)
 - **Role:** It powers the stepper motor, the heating element, and the microcontroller (stepped down). It is completely overkill for this project, but it guarantees stable voltage no matter how hard the motor or heater draws current.

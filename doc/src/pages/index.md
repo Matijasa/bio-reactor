@@ -140,8 +140,8 @@ The schematics were never actualized and printed, but a Ki-Cad project for the p
 </div>
 
 ## Prototyping components
-![Electronics Prototype Breadboard](/img/electronics_breadboard.jpg)
 
+![Electronics Prototype Breadboard](/img/electronics_breadboard.jpg)
 
 For temperature control, we are using a small immersion heating element. This allows us to maintain the precise temperature range required for specific yeast strains (typically between 18°C and 24°C).
 
@@ -150,7 +150,7 @@ For temperature control, we are using a small immersion heating element. This al
 Before risking a full batch of yeast, we validated the heating logic in a high-tech simulation environment (a plastic cup of water).
 
 <video controls autoplay loop muted playsinline width="100%">
-  <source src="/img/heater_logic_test_silent.mp4" type="video/mp4">
+  <source src="/img/heater_logic_high_qual.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 

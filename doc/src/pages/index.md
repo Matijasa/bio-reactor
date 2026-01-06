@@ -131,7 +131,17 @@ Right now, the pump is "always on" when plugged in. We haven't tested the automa
 The brain of the operation is an **ESP32-WROOM-32** microcontroller. This board was chosen for its built-in WiFi and Bluetooth capabilities, which will eventually allow us to monitor the fermentation process remotely.
 To keep things modular during development, we wired everything up on a breadboard first. This "Rat's Nest" includes the ESP32, a stepper driver, and the power management rails.
 
+## Schematics and PCB
+
+The schematics were never actualized and printed, but a Ki-Cad project for the production version is made and available on github.  
+
+<div style="margin: 4rem -50vw; background-color: rgba(55,65,81,0.04)">
+  <img src="/img/pcb-design.svg" style="width: 100%; max-width: 100vw; max-height:105vh;">
+</div>
+
+## Prototyping components
 ![Electronics Prototype Breadboard](/img/electronics_breadboard.jpg)
+
 
 For temperature control, we are using a small immersion heating element. This allows us to maintain the precise temperature range required for specific yeast strains (typically between 18°C and 24°C).
 

@@ -258,7 +258,7 @@ void loop()
       has_reached_temp = true;
       Serial.println("");
       Serial.print("Time to reach temp: ");
-      int time = millis() - initial_time;
+      unsigned long time = millis() - initial_time;
       Serial.print(time / 1000);
       Serial.print(" s || ");
       Serial.print("Temp delta: ");
@@ -268,7 +268,7 @@ void loop()
   }
 
   // Runtime logger
-  int time = millis() - initial_time;
+  unsigned long time = millis() - initial_time;
   Serial.print(time / 1000);
   Serial.println(" s");
 }

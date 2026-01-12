@@ -7,80 +7,81 @@ layout: ../layouts/BlogPost.astro
 
 ## Motivation
 
-## Motivation
-
 **Authors:** Matija Šavli, Lan Vukušič
 
-My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we found ourselves running out of yeast. One time, we decided to use sediment from a previous batch of beer to cultivate yeast in a small jar. This worked well, but we knew there had to be a better way to optimize the process.
+My friend [Lan Vukusic](https://github.com/LanVukusic) and I are both hobby beer brewers, but we kept running into the same bottleneck: yeast scarcity. We tried cultivating yeast from the sediment of previous batches in small jars; while this worked, it was inconsistent.
 
-We began researching and came across the idea of creating our own bioreactor to cultivate yeast under controlled conditions. By controlling environmental factors like temperature, pH, and oxygen levels, we could improve the quality and yield of our beer. It would also allow us to scale up production while maintaining consistent quality.
+We knew there had to be a better way. We started researching how to optimize the process and landed on the idea of creating a custom bioreactor. By strictly controlling environmental factors—temperature, pH, and oxygen levels—we realized we could not only scale up our yeast production but also guarantee the consistency required for high-quality brewing.
+
+Beyond the practical utility, we had a secondary motive: we wanted to stretch our engineering muscles. We had the theoretical knowledge and the 3D printers, and we wanted to prove to ourselves that we could apply them to build a complex, real-world biological system.
 
 ## Designing parts
 
-When we set out to create our bioreactor, we had a general idea of what the finished product should look like, but we made no hard plans. We were aware that most of the things we plan wouldn't work out or that better options would become obvious. However, we knew that we needed specific parts to make the bioreactor function properly:
+When we started the build, we had a vision for the finished reactor but avoided rigid planning. We knew that in a project like this, the first design is rarely the right one. Instead, we adopted an iterative approach: build, test, fail, and redesign.
 
-- [Jar lid](#jar-lid)
-- [Mixer](#mixer)
-- Motor holder
+We identified the critical subsystems required to make the bioreactor functional:
+
+- [The Jar & Lid](#jar-lid)
+- [The Mixer](#mixer)
+- Motor mount
 - Temperature probe mount
-- Bubbler
+- Bubbler (Aeration)
 - Electronics housing
 
-In the following chapters, we will describe the design of these parts, iterations, and problems that we encountered along the way.
+Below, we detail the design process for these parts, including the iterations that didn't make the cut.
 
 ### Jar lid
 
-We decided to use a 5-liter glass jar as the base container for our bioreactor, which we were able to purchase for approximately `4€`. It was an ideal choice as it was large enough for our needs, inexpensive, and of good quality. Overall, it was a great buy.
+We chose a 5-liter glass pickle jar as our vessel. At approximately `4€`, it was a steal—large enough for substantial yeast propagation, easy to sterilize, and chemically inert.
 
-To mount all the sensors and actuators, we decided to create an airtight lid that would cover the jar, help keep the reactor sterile, and allow us to mount various equipment on it. To model the jar lid, we used freeCAD and printed the models using the Creality V2 printer.
+To turn a pickle jar into a reactor, we needed a custom airtight lid to mount our sensors and actuators while maintaining sterility. We modeled the lid in FreeCAD and printed it on a Creality V2.
 
-The most challenging aspect of designing the lid was creating the thread and ensuring that the diameter was accurate enough to close the lid tightly. We performed a series of test prints with different radii to find the tightest fit.
+**The Engineering Challenge**
+
+Modeling the thread for a glass jar is deceptively difficult. Unlike standard ISO threads, glass threads often have unique profiles and tolerances. We struggled to measure the exact angle of the glass "teeth," so we resorted to empirical testing. We printed a series of test rings with varying radii and thread pitches until we found the perfect, airtight fit.
 
 ![lid test prints](/img/lid_prints.webp)
 
-After conducting a series of test prints with various radii, we were able to find the ideal fit for the jar lid. The successful test print is shown on the bottom right in the image below.
+After conducting these tests, we found the ideal fit (shown on the bottom right in the image above).
 
-While determining the correct radius was not overly challenging, creating the thread proved to be more difficult. We had trouble measuring the angle of the teeth that grip the jar, so we had to resort to trial and error to find the best method.
+While determining the correct radius was straightforward, creating the thread geometry required more trial and error. We adjusted the angle of the gripping teeth in CAD until the friction was just right.
 
 ![lid design](/img/lid_autocad.webp)
 
-The final option printed just great and allowed for a tight screw on.
+The final design printed perfectly and allowed for a tight, secure seal on the jar.
 
 ### Mixer
 
-Properly mixing the contents of the reactor is crucial for ensuring good aeration and preventing sediment formation. It is important to distribute micro-organisms evenly throughout the medium.
+Properly mixing the contents of the reactor is crucial. We need to ensure good aeration and prevent sediment formation by distributing micro-organisms evenly throughout the medium.
 
-To design the mixer blades, we used freeCAD and based our dimensions on standard bioprocess engineering ratios found in literature (similar to a standard **Rushton Turbine** design).
-
-The reactor has a diameter of `d = 180mm` and a height of approximately `h = 220mm`. The diameter `d_blade` and height `h_blade` of the mixer blades can be calculated as follows:
-
-$$
-d_{blade} = \frac{d}{3} = \frac{180}{3} = 60
-$$
-$$
-h_{blade} = \frac{d_{blade}}{5} = \frac{60}{5} = 12
-$$
-
-With the sizes calculated, we had to choose the blade geometry.
-
-Firstly we had to choose between `axial` (left) and `radial` (right) mixer heads:
+**1. Design Choice: Axial vs. Radial**
+Our first engineering decision was choosing the blade geometry. We considered two main types: `axial` (marine-style) and `radial` (turbine-style).
 
 ![axial and radial mixer heads](/img/mixer_heads.webp)
 
-Different positioning and angles of the blades have their own pros and cons.
-
-| Mixer head | Type Name | Pros | Cons |
+| Mixer Head | Type Name | Pros | Cons |
 | :---: | --- | --- | --- |
-| Axial | **Marine Propeller** | High Flow, Gentle mixing | Low shear (bad for bubbles) |
-| Radial | **Rushton Turbine** | High Shear (great for bubbles) | "Worse" vertical circulation |
+| Axial | **Marine Propeller** | High Flow, Gentle mixing | Low shear (poor gas dispersion) |
+| Radial | **Rushton Turbine** | High Shear (great for bubbles) | Lower vertical circulation |
 
->**Why Radial? The "Shear" Factor**
-> We chose the **Radial** design (Rushton Turbine) for one reason: **Gas Dispersion**.
-> In a bioreactor, the limiting factor is usually how much oxygen you can dissolve into the liquid (Mass Transfer Coefficient, or $k_L a$).
->
-> A radial mixer pushes fluid outward against the jar walls with high energy. This "shear force" smashes the large air bubbles coming from the bottom into tiny micro-bubbles. Smaller bubbles mean more surface area, which means more oxygen for the yeast. While high shear can damage sensitive animal cells, yeast are robust enough to handle it.
+We chose the **Radial** design (Rushton Turbine) for one specific reason: **Gas Dispersion**.
 
-To ensure the radial head is secure, we have added a mounting piece to the design, allowing us to fit a screw to tighten it to the lead.
+In a bioreactor, the limiting factor is usually how much oxygen you can dissolve into the liquid. A radial mixer pushes fluid outward against the jar walls with high energy. This "shear force" smashes the large air bubbles coming from the bottom into tiny micro-bubbles. Smaller bubbles mean more surface area, which translates to more oxygen for the yeast.
+
+**2. Sizing the Turbine**
+With the geometry selected, we sized the blades using standard bioprocess engineering ratios found in literature.
+
+For a reactor with diameter `d = 180mm` and height `h = 220mm`, the blade diameter ($d_{blade}$) and height ($h_{blade}$) are calculated as:
+
+$$
+d_{blade} = \frac{d}{3} = \frac{180}{3} = 60mm
+$$
+$$
+h_{blade} = \frac{d_{blade}}{5} = \frac{60}{5} = 12mm
+$$
+
+**3. The Build**
+We modeled the Rushton turbine in FreeCAD, adding a mounting collar to the design so we could secure it to the shaft with a set screw.
 
 ![mixer head design progression](/img/mixer_designs.webp)
 
@@ -90,26 +91,28 @@ The final assembly uses a square brass rod to transmit torque, with the 3D print
 
 ### Motor and Housing
 
-**The "Free" Mistake:** Initially, we repurposed a stepper motor from an old ink printer. It was free, but mounting it was a nightmare and it became too complex.
+**The "Free" Mistake**
+Initially, we tried to repurpose a stepper motor from an old inkjet printer. It was free, but mounting it was a nightmare. While the torque was actually sufficient for the job, we hit a wall trying to control it. We simply couldn't get it to rotate consistently with our stepper drivers. Rather than wasting days debugging proprietary wiring schemes or driver incompatibility, we decided to cut our losses and move to a standardized solution.
 
 ![Old Printer Motor Setup](/img/old_motor_holder2.webp)
 
-**The Upgrade:** We eventually upgraded to a standard **NEMA 17** stepper motor. It is the industry standard for 3D printers for a reason: it offers high torque, precise control, and standard mounting holes.
+**The Upgrade**
+We eventually upgraded to a standard **NEMA 17** stepper motor. It is the industry standard for 3D printers for a reason: it offers high torque, precise control, and convenient mounting holes that work with almost any off-the-shelf driver.
 
 <video controls autoplay loop muted playsinline width="100%">
   <source src="/img/motor_test_silent.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
-To securely attach the NEMA 17 to our lid, we designed a custom motor holder in FreeCAD.
-
-Here is the complete assembly design. The motor attaches at the top, and the housing ensures it stays perfectly aligned with the central mixing shaft while minimizing vibration:
+To securely attach the NEMA 17 to our lid, we designed a custom motor holder in FreeCAD. This housing ensures the motor stays perfectly aligned with the central mixing shaft while minimizing vibration.
 
 ![Motor Housing Assembly CAD](/img/new_motor_holder.png)
 
 Instead of a complex belt system, we opted for a direct-drive configuration. We designed a custom 3D-printed coupler to connect the motor's shaft directly to the square brass mixing rod. This simplifies the assembly and reduces the number of moving parts.
 
-### The Scrapyard (Failed Ideas)
+![The fully assembled mechanical stage: The NEMA 17 motor sits atop the custom printed housing, driving the Rushton turbine directly via the brass shaft.](/img/mixer_built.jpg)
+
+### Failed Ideas
 
 Science is mostly failure. Before we landed on the direct-drive tower, we tried a complex belt-drive system to keep the motor off-center.
 
@@ -129,25 +132,27 @@ Right now, the pump is "always on" when plugged in. We haven't tested the automa
 ### Electronics and sensors
 
 The brain of the operation is an **ESP32-WROOM-32** microcontroller. This board was chosen for its built-in WiFi and Bluetooth capabilities, which will eventually allow us to monitor the fermentation process remotely.
-To keep things modular during development, we wired everything up on a breadboard first. This "Rat's Nest" includes the ESP32, a stepper driver, and the power management rails.
+To keep things modular during development, we wired everything up on a breadboard first. This includes the ESP32, a stepper driver, and the power management rails.
 
 ## Schematics and PCB
 
-The schematics were never actualized and printed, but a Ki-Cad project for the production version is made and available on github.  
+The schematics were never actualized and printed, but a Ki-Cad project for the production version is made and available on github.
+
+> **⚠️ Work in Progress Note:**
+> The electronics design shown below is currently experimental. We have identified some potential safety issues with the heater driver circuit (specifically regarding "fail-safe" states) that we are redesigning. If you look at the GitHub files, please treat them as a draft, not a final production-ready board.
 
 <div style="margin: 4rem -50vw; background-color: rgba(55,65,81,0.04)">
   <img src="/img/pcb-design.svg" style="width: 100%; max-width: 100vw; max-height:105vh;">
 </div>
 
-## Prototyping components
+## Prototyping Components: Temperature Control
 
-![Electronics Prototype Breadboard](/img/electronics_breadboard.jpg)
-
-For temperature control, we are using a small immersion heating element. This allows us to maintain the precise temperature range required for specific yeast strains (typically between 18°C and 24°C).
+Yeast is sensitive. To keep our cultures happy, we need to maintain a specific temperature range (typically between 18°C and 24°C). For this, we used a small 12V immersion heating element.
 
 ![Heating element](/img/heating_element.webp)
 
-Before risking a full batch of yeast, we validated the heating logic in a high-tech simulation environment (a plastic cup of water).
+**Validation Testing**
+Before risking a batch of actual yeast, we needed to validate our control logic. We set up a "high-tech simulation environment"—a plastic cup of water—to ensure our code wouldn't accidentally boil the medium.
 
 <video controls autoplay loop muted playsinline width="100%">
   <source src="/img/heater_logic_high_qual.mp4" type="video/mp4">
@@ -158,25 +163,30 @@ Before risking a full batch of yeast, we validated the heating logic in a high-t
 
 ### The Power Plant
 
-To run the heater, the stepper motor, and the ESP32, we needed a reliable 12V DC source. Instead of buying a cheap brick, we repurposed a server power supply (**HP HSTNS-PL23B**) scavenged from an old data center rack.
+To run the heater, the high-torque stepper motor, and the ESP32 simultaneously, we needed a beefy 12V DC source. A standard AC adapter wouldn't cut it.
+
+Instead of buying an expensive bench supply, we scavenged a server power supply (**HP HSTNS-PL23B**) from an old data center rack.
 
 ![Server Power Supply](/img/power_suppy.jpg)
 
-- **Output:** 12V @ 38.3A (460W Max)
-- **Role:** It powers the stepper motor, the heating element, and the microcontroller (stepped down). It is completely overkill for this project, but it guarantees stable voltage no matter how hard the motor or heater draws current.
+- **Specs:** 12V @ 38.3A (460W Max)
+- **The Verdict:** It is completely overkill for this project, but that's exactly what we wanted. It guarantees stable voltage rails no matter how hard the motor or heater draws current, preventing brownouts that could reset the microcontroller.
 
 ## The Logic (Firmware)
 
-Hardware is nothing without code. We developed the firmware using **PlatformIO** (VS Code) for its easy library management, though we plan to migrate to the native **Espressif IDF** later for more granular control.
-The current version (`v0.1`) uses a **Bang-Bang control loop** (the simplest form of feedback control):
+Hardware is a paperweight without code. We developed the firmware using **PlatformIO** (VS Code) rather than the standard Arduino IDE, as it offers better library management.
 
-1. Read temperature.
-2. Is it too cold? Turn heater **ON**.
-3. Is it hot enough? Turn heater **OFF**.
+**The Control Strategy**
+For version `v0.1`, we implemented a **Bang-Bang control loop**. While PID control is smoother, a large jar of water has high thermal mass (it heats and cools slowly), making simple Bang-Bang control surprisingly effective:
 
-We also added safety checks to ensure the sensor is actually connected (reading `-127` usually means the sensor wire is broken).
+1. **Read** temperature sensor.
+2. **Is it too cold?** Turn heater **ON**.
+3. **Is it warm enough?** Turn heater **OFF**.
 
-Here is the raw `v0.1` code currently running on the reactor. Note the `INVERTED PINS` logic—most relay modules are "Active Low," meaning sending a `0` (LOW) signal actually turns the switch **ON**.
+We also implemented safety checks. If the sensor returns `-127` (the Dallas library's error code for "disconnected"), the system immediately shuts down the heater to prevent a runaway thermal event.
+
+**Code snippet (`v0.1`):**
+*Note: The relay logic is inverted (`LOW` = ON) because most relay modules are "Active Low".*
 
 ```cpp
 #include <Arduino.h>
@@ -195,8 +205,8 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 // Global Variables
-int initial_time = 0;
-int initial_temp = 0;
+unsigned long initial_time = 0;
+float initial_temp = 0;
 bool has_reached_temp = false;
 
 void setup()
@@ -264,16 +274,20 @@ void loop()
 }
 ```
 
-## The Bill of Materials
+## The Cost of Materials
 
 Total cost? Still cheaper than buying new yeast every weekend, even with the motor upgrade.
 
-- **Glass Jar:** `4€` (Local hardware store)
-- **Motor:** `~15€` (Upgraded to a NEMA 17 Stepper because the printer motor struggled)
-- **ESP32:** `~5€` (AliExpress special)
-- **Air Pump:** `15€` (Pet store)
-- **Sterile Filter:** `0€` (Donated/Scavenged from a lab)
-- **Filament:** `~200g` of PLA (and a lot of failed prints)
+| Item | Cost (Approx) | Notes |
+| :--- | :--- | :--- |
+| **Glass Jar (5L)** | `4€` | Local hardware store (Pickle jar) |
+| **NEMA 17 Motor** | `15€` | Upgraded from salvaged printer motor |
+| **ESP32 Dev Board** | `5€` | AliExpress |
+| **Air Pump** | `15€` | Pet store (Resun Air 2000) |
+| **Sterile Filter** | `0€` | Scavenged from a lab |
+| **PLA Filament** | `~5€` | ~200g used (excluding failed prints) |
+| **Power Supply** | `0€` | Salvaged HP Server PSU |
+| **Total** | **~44€** | |
 
 ## Future Upgrades
 
@@ -282,3 +296,18 @@ The hardware is alive, but the brain needs work. The next steps for the project:
 1. **Web Dashboard:** The ESP32 will host a local website showing live temperature graphs.
 2. **PID Tuning:** Teaching the heater not to overshoot and boil the yeast.
 3. **Beer Brewing:** Actually using the biomass to ferment a batch of IPA.
+
+## Project Status: To Be Continued
+
+As of writing, the "hardware" phase of the bioreactor is complete. The mixer spins with sufficient torque, and the heater logic keeps the water from freezing or boiling.
+
+However, a bioreactor is only as good as its control system, and that is where we still have work to do. Several key components are currently in the design or testing phase:
+
+1. **Electronics Housing:** We still need to design and print a sterile enclosure to move the electronics off the breadboard and onto the side of the jar.
+2. **PCB Revision:** The current schematic needs a safety update (switching to a dedicated gate driver) before we commit to manufacturing a custom board.
+3. **The "Brain" Upgrade:** We plan to move from simple "Bang-Bang" thermal control to a PID loop and build a web-based dashboard on the ESP32 for remote monitoring.
+4. **The Brew:** The ultimate test—actually pitching yeast and fermenting a batch of beer.
+
+This project is an ongoing experiment in engineering and microbiology. We will publish **Part 2** once the electronics are encased and the first batch of yeast is bubbling away.
+
+*Stay tuned for updates!*
